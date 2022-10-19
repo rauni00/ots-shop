@@ -23,7 +23,7 @@ const ref = firebase.firestore;
 const auth = firebase.auth();
 
 app.get('/', (req, res) => {
-	res.send('<h1>HELLO</h1>');
+	res.send('<h1>WELCOME TO E-SHOP </h1>');
 });
 //! auth with firebase auth
 app.post('/register', (req, res) => {
