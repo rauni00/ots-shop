@@ -6,8 +6,7 @@ const app = express();
 import config from './serviceAccountKey.json' assert { type: 'json' };
 import validateProfileInput from './validation/setProfile.cjs';
 import bodyParser from 'body-parser';
-// import { getAuth } from 'firebase/compat/auth';
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //! firebase connection
@@ -19,7 +18,6 @@ try {
 }
 //! database connection
 const db = firebase.firestore();
-const ref = firebase.firestore;
 const auth = firebase.auth();
 
 app.get('/', (req, res) => {
@@ -143,8 +141,8 @@ app.post('/createCategory', (req, res) => {
 		});
 });
 // ! Get Post of user
-app.get('/getPost', (req, res) => {
-	db.collection('posts')
+app.get('/getCategory', (req, res) => {
+	db.collection('category')
 		.where('userId', '==', req.headers['uid'])
 		.get()
 		.then((post) => {
