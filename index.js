@@ -131,6 +131,7 @@ app.post('/createCategory', (req, res) => {
 		image: req.body.image,
 	};
 	db.collection('category')
+
 		.doc()
 		.set(categoryFields)
 		.then((category) => {
