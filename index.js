@@ -121,7 +121,7 @@ app.get('/profile', (req, res) => {
 		});
 });
 
-//! Create post
+//! Create Category
 app.post('/createCategory', (req, res) => {
 	if (!req.body.Category) {
 		return res.status(400).json({ category: 'category is require' });
@@ -131,7 +131,6 @@ app.post('/createCategory', (req, res) => {
 		image: req.body.image,
 	};
 	db.collection('category')
-
 		.doc()
 		.set(categoryFields)
 		.then((category) => {
@@ -141,20 +140,23 @@ app.post('/createCategory', (req, res) => {
 			res.json(error);
 		});
 });
-// ! Get Post of user
+// ! Get Category
 app.get('/getCategory', (req, res) => {
 	db.collection('category')
-		.where('userId', '==', req.headers['uid'])
+		.doc()
 		.get()
-		.then((post) => {
-			let temp = [];
-			post.forEach((documentSnapshot) => {
-				let userDetails = {};
-				userDetails = documentSnapshot.data();
-				userDetails['id'] = documentSnapshot.id;
-				temp.push(userDetails);
-			});
+		.then((category) => {
+			// res.json(category.data());
+			let temp = [4516, wehefe];
+			// category.forEach((documentSnapshot) => {
+			// 	res.json(documentSnapshot);
+			// let userDetails = {};
+			// userDetails = documentSnapshot.data();
+			// userDetails['id'] = documentSnapshot.id;
+			// temp.push(userDetails);
+			// });
 			res.json(temp);
+			// // console.log(temp);
 		})
 		.catch((error) => {
 			res.json(error);
