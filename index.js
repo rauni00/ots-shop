@@ -159,29 +159,46 @@ app.get('/getCategory', (req, res) => {
 		});
 });
 
-//! Create Comments
-app.post('/createComment', (req, res) => {
-	if (!req.body.comment) {
-		return res.status(400).json({ comment: 'comment is require' });
-	} else {
-		const commentFields = {
-			PostId: req.body.PostId,
-			userId: req.headers['uid'],
-			comment: req.body.comment,
-			time: new Date(),
-		};
-		db.collection('posts')
-			.doc(req.body.PostId)
-			.update({
-				comments: firebase.firestore.FieldValue.arrayUnion(commentFields),
-			})
-			.then((post) => {
-				res.json(post);
-			})
-			.catch((error) => {
-				res.json(error);
+//! Create Item
+app.post('/createItem', (req, res) => {
+	// create Validation
+	const Item = {
+		name: req.body.name,
+		image: req.body.image,
+		price: req.body.price,
+		description: req.body.description,
+		categoryId: req.body.categoryId,
+	};
+
+	db.collection('Items')
+		.doc()
+		.set(Item)
+		.then((item) => {
+			res.status(200).json({ msg: 'success' });
+		})
+		.catch((err) => {
+			res.status(400).json({ err: err });
+		});
+});
+
+//! Getting Items of category
+app.get('/getItem', (req, res) => {
+	db.collection('Items')
+		.where('categoryId', '==', req.body.categoryId)
+		.get()
+		.then((item) => {
+			let temp = [];
+			item.forEach((documentSnapshot) => {
+				let items = {};
+				items = documentSnapshot.data();
+				items['id'] = documentSnapshot.id;
+				temp.push(items);
 			});
-	}
+			res.json(temp);
+		})
+		.catch((error) => {
+			res.json(error);
+		});
 });
 
 // ! likes
