@@ -111,10 +111,10 @@ app.get('/profile', (req, res) => {
 		.doc(req.headers['uid'])
 		.get()
 		.then((user) => {
-			let userDetails = {};
-			userDetails = user.data();
-			userDetails['id'] = user.id;
-			res.json(userDetails);
+			let Category = {};
+			Category = user.data();
+			Category['id'] = user.id;
+			res.json(Category);
 		})
 		.catch((err) => {
 			res.json(err);
@@ -143,20 +143,16 @@ app.post('/createCategory', (req, res) => {
 // ! Get Category
 app.get('/getCategory', (req, res) => {
 	db.collection('category')
-		.doc()
 		.get()
 		.then((category) => {
-			// res.json(category.data());
-			let temp = [4516, wehefe];
-			// category.forEach((documentSnapshot) => {
-			// 	res.json(documentSnapshot);
-			// let userDetails = {};
-			// userDetails = documentSnapshot.data();
-			// userDetails['id'] = documentSnapshot.id;
-			// temp.push(userDetails);
-			// });
+			let temp = [];
+			category.forEach((documentSnapshot) => {
+				let Category = {};
+				Category = documentSnapshot.data();
+				Category['id'] = documentSnapshot.id;
+				temp.push(Category);
+			});
 			res.json(temp);
-			// // console.log(temp);
 		})
 		.catch((error) => {
 			res.json(error);
