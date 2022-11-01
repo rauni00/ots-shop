@@ -5,6 +5,8 @@ import express from 'express';
 const app = express();
 import config from './serviceAccountKey.json' assert { type: 'json' };
 import validateProfileInput from './validation/setProfile.cjs';
+import validateItemInput from './validation/Item.cjs';
+
 import bodyParser from 'body-parser';
 const port = process.env.PORT || 4000;
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -161,6 +163,10 @@ app.get('/getCategory', (req, res) => {
 
 //! Create Item
 app.post('/createItem', (req, res) => {
+	const { errors, isValid } = validateItemInput(req.body);
+	if (!isValid) {
+		return res.status(400).json(errors);
+	}
 	// create Validation
 	const Item = {
 		name: req.body.name,
@@ -169,7 +175,6 @@ app.post('/createItem', (req, res) => {
 		description: req.body.description,
 		categoryId: req.body.categoryId,
 	};
-
 	db.collection('Items')
 		.doc()
 		.set(Item)
