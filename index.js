@@ -3,9 +3,9 @@ import 'firebase/compat/auth'; //v9
 import 'firebase/compat/firestore'; //v9
 import express from 'express';
 const app = express();
-import config from './serviceAccountKey.json' assert { type: 'json' };
 import validateProfileInput from './validation/setProfile.cjs';
 import validateItemInput from './validation/Item.cjs';
+import key from './serviceAccountKey.js';
 
 import bodyParser from 'body-parser';
 const port = process.env.PORT || 4000;
@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //! firebase connection
 try {
-	firebase.initializeApp(config);
+	firebase.initializeApp(key);
 	console.log('Firebase Database Connected Success');
 } catch (error) {
 	console.log('===============', error);
